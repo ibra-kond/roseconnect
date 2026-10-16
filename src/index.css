@@ -1,0 +1,114 @@
+@import '@fontsource/nunito/latin-700.css';
+@import '@fontsource/nunito/latin-800.css';
+@import '@fontsource/inter/latin-400.css';
+@import '@fontsource/inter/latin-500.css';
+@import '@fontsource/inter/latin-600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream font-sans text-base text-ink antialiased;
+    min-height: 100dvh;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-heading font-extrabold text-ink;
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 3px solid #863146;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: #FCDDEF;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Bouton-icône à fond clair : contour bordeaux et icône noire, même au repos. */
+  .btn-icon {
+    @apply grid h-tap w-tap shrink-0 place-items-center rounded-full border-2 border-plum-700 bg-white text-ink transition-colors hover:bg-pink-50 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .container-app {
+    @apply mx-auto w-full max-w-app px-4;
+  }
+  .section-title {
+    @apply font-heading text-lg font-extrabold text-ink;
+  }
+  .sr-only-focusable:not(:focus) {
+    @apply sr-only;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Impression de la fiche de liaison : UNIQUEMENT le QR code (il contient toutes les informations). */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  .print-qr,
+  .print-qr * {
+    visibility: visible !important;
+  }
+  .print-qr {
+    position: fixed;
+    top: 2cm;
+    left: 50%;
+    width: 9cm !important;
+    height: 9cm !important;
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes typing-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+.typing-dot {
+  animation: typing-dot 1.2s infinite ease-in-out;
+}

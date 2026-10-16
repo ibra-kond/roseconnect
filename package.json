@@ -1,0 +1,46 @@
+{
+  "name": "roseconnect",
+  "private": true,
+  "version": "1.0.0",
+  "description": "ROSECONNECT — De l'inquiétude à l'action. Sensibilisation, orientation et accompagnement face au cancer du sein.",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k -n web,api -c magenta,green \"vite\" \"tsx watch server/index.ts\"",
+    "dev:web": "vite",
+    "dev:api": "tsx watch server/index.ts",
+    "build": "tsc --noEmit && vite build",
+    "preview": "concurrently -k -n web,api -c magenta,green \"vite preview\" \"tsx server/index.ts\"",
+    "start": "tsx server/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test:chat": "tsx scripts/check-chat.ts"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "@google/genai": "^2.30.0",
+    "express": "^4.22.3",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^1.57.0",
+    "qrcode-generator": "^1.4.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.6",
+    "zustand": "^4.5.7"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.25",
+    "@types/node": "^22.20.5",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.6.1",
+    "concurrently": "^9.2.5",
+    "playwright-core": "^1.64.1",
+    "postcss": "^8.5.30",
+    "tailwindcss": "^3.4.19",
+    "tsx": "^4.23.15",
+    "typescript": "5.6",
+    "vite": "^5.4.21",
+    "vite-plugin-pwa": "^0.21.2"
+  }
+}

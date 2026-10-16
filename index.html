@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#863146" />
+    <meta
+      name="description"
+      content="ROSECONNECT : sensibilisation, orientation et accompagnement face au cancer du sein. De l'inquiétude à l'action. Gratuit, avec un espace personnel, disponible hors ligne."
+    />
+    <title>ROSECONNECT — De l'inquiétude à l'action</title>
+  </head>
+  <body class="bg-cream">
+    <noscript>Cette application a besoin de JavaScript pour fonctionner.</noscript>
+    <div id="root">
+      <!-- Squelette affiché avant le chargement du JavaScript (remplacé par React) -->
+      <div style="min-height:100dvh;background:#FFF7FA;font-family:Nunito,system-ui,sans-serif">
+        <div style="height:64px;border-bottom:1px solid #EED9E3;display:flex;align-items:center;justify-content:center">
+          <strong style="font-size:1.2rem;letter-spacing:-.01em"><span style="color:#863146">ROSE</span><span style="color:#C2398C">CONNECT</span></strong>
+        </div>
+        <div style="max-width:480px;margin:0 auto;padding:16px">
+          <div style="border-radius:24px;background:linear-gradient(#FEF1F8,#fff);padding:24px 20px;box-shadow:0 4px 16px rgba(31,41,51,.06)">
+            <p style="margin:0;color:#863146;font-size:1.875rem;font-weight:800;line-height:1.2">De l’inquiétude à l’action</p>
+            <p style="margin:8px 0 0;color:#6E5762;font-family:system-ui,sans-serif;font-size:1.0625rem;line-height:1.5">Comprendre, se faire dépister, être accompagnée. Pas à pas, à votre rythme.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Mode discret : squelette, titre et favicon neutres AVANT le chargement de l'application.
+      try {
+        if (JSON.parse(localStorage.getItem('roseconnect-prefs') || '{}').state.discreet) {
+          document.title = 'Ma santé';
+          document.getElementById('root').innerHTML =
+            '<div style="min-height:100dvh;background:#FFF7FA;display:grid;place-items:center;font-family:Nunito,system-ui,sans-serif"><strong style="font-size:1.4rem;color:#2D1720">Ma santé</strong></div>';
+          var icon = document.querySelector('link[rel="icon"]');
+          if (icon) icon.href = '/favicon-neutral.svg';
+        }
+      } catch (e) {}
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
