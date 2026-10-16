@@ -1,5 +1,6 @@
 /**
- * Captures d'écran des 4 onglets + détection des erreurs console.
+ * Captures d'écran (connexion, onglets, fiche de liaison, impact) + détection des erreurs console.
+ * Se connecte avec le compte démo (Awa, 38 ans, Ouagadougou).
  * Prérequis : `npm run build` puis `npm run preview` (ou BASE_URL=...).
  * Lancer : node scripts/screenshots.mjs [--full] [--width=360]
  */
@@ -30,8 +31,26 @@ const ctx = await browser.newContext({
 });
 const page = await ctx.newPage();
 const errors = [];
-page.on('console', (m) => m.type() === 'error' && errors.push(`[console] ${m.text()}`));
+// Sans le proxy API (npm run preview seul), /api/health échoue : c'est attendu (mode hors ligne).
+page.on('console', (m) => m.type() === 'error' && !/Failed to load resource/.test(m.text()) && errors.push(`[console] ${m.text()}`));
 page.on('pageerror', (e) => errors.push(`[pageerror] ${e.message}`));
+
+const suffix = WIDTH > 600 ? '-desktop' : '';
+const snap = async (name) => {
+  // Ferme les notifications passagères (toasts) pour qu'elles ne masquent pas l'écran.
+  for (const close of await page.locator('[role="status"] button[aria-label="Fermer"]').all()) await close.click().catch(() => {});
+  await page.waitForTimeout(400);
+  const file = `${OUT}/${name}${suffix}.png`;
+  await page.screenshot({ path: file, fullPage: FULL });
+  console.log('✓', file);
+};
+
+// Connexion, puis compte démo
+await page.goto(BASE + '/connexion', { waitUntil: 'networkidle' });
+await page.waitForTimeout(900);
+await snap('00-connexion');
+await page.getByRole('button', { name: 'Découvrir avec le compte démo' }).click();
+await page.waitForURL(BASE + '/');
 
 const shots = [
   ['01-accueil', '/'],
@@ -45,16 +64,26 @@ for (const [name, path] of shots) {
   await page.goto(BASE + path, { waitUntil: 'networkidle' });
   await page.waitForTimeout(name === '03-chatbot' ? 2500 : 900);
   if (name === '03-chatbot') {
-    // Parcours démo : on commence → 35-39 → changement → boule
-    for (const label of ['Oui, on commence', '35 à 39 ans', 'J’ai remarqué un changement', 'Une boule ou une masse', 'Jamais', 'Ouagadougou', 'L’argent']) {
+    // Parcours démo (l'âge vient de la date de naissance) : changement → boule → jamais → Ouagadougou → argent
+    for (const label of ['Oui, on commence', 'J’ai remarqué un changement', 'Une boule ou une masse', 'Jamais', 'Ouagadougou', 'L’argent']) {
       await page.getByRole('button', { name: label, exact: true }).click();
       await page.waitForTimeout(2600);
     }
   }
-  const file = `${OUT}/${name}${WIDTH > 600 ? '-desktop' : ''}.png`;
-  await page.screenshot({ path: file, fullPage: FULL });
-  console.log('✓', file);
+  await snap(name);
 }
+
+// Fiche de liaison (depuis Mon suivi)
+await page.goto(BASE + '/suivi', { waitUntil: 'networkidle' });
+await page.getByRole('button', { name: 'Ma fiche de liaison' }).click();
+await page.waitForTimeout(900);
+await snap('07-fiche-liaison');
+
+// Tableau d'impact, avec l'exemple de campagne (données fictives)
+await page.goto(BASE + '/impact', { waitUntil: 'networkidle' });
+await page.getByRole('switch').click();
+await page.waitForTimeout(900);
+await snap('08-impact');
 // Overflow horizontal ?
 for (const [, path] of shots) {
   await page.goto(BASE + path, { waitUntil: 'networkidle' });

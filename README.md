@@ -5,9 +5,13 @@ Application web responsive (mobile d’abord, installable en PWA) de **sensibili
 > ROSECONNECT ne remplace pas un avis médical. L’application informe et oriente. Elle ne pose **jamais** de diagnostic.
 > Toutes les structures de santé et tous les contacts sont **fictifs** (données de démonstration).
 
-| Accueil | Comprendre | Chatbot | Structures | Mon suivi |
+| Connexion | Accueil | Comprendre | Assistante | Structures |
 | --- | --- | --- | --- | --- |
-| ![Accueil](docs/screenshots/01-accueil.png) | ![Comprendre](docs/screenshots/02-comprendre.png) | ![Chatbot](docs/screenshots/03-chatbot.png) | ![Structures](docs/screenshots/04-structures.png) | ![Mon suivi](docs/screenshots/05-suivi.png) |
+| ![Connexion](docs/screenshots/00-connexion.png) | ![Accueil](docs/screenshots/01-accueil.png) | ![Comprendre](docs/screenshots/02-comprendre.png) | ![Assistante](docs/screenshots/03-chatbot.png) | ![Structures](docs/screenshots/04-structures.png) |
+
+| Mon suivi | Réglages | Fiche de liaison | Tableau d’impact |
+| --- | --- | --- | --- |
+| ![Mon suivi](docs/screenshots/05-suivi.png) | ![Réglages](docs/screenshots/06-reglages.png) | ![Fiche de liaison](docs/screenshots/07-fiche-liaison.png) | ![Tableau d’impact](docs/screenshots/08-impact.png) |
 
 ## Fonctionnalités
 
@@ -116,7 +120,7 @@ scripts/          check-chat.ts, generate-icons.mjs, screenshots.mjs
 
 ```bash
 npm run build && npm run preview          # dans un premier terminal
-node scripts/screenshots.mjs              # captures → docs/screenshots (utilise Chrome ou Edge installé)
+node scripts/screenshots.mjs              # captures (compte démo) → docs/screenshots (utilise Chrome ou Edge installé)
 node scripts/generate-icons.mjs           # régénère les icônes PWA
 ```
 
